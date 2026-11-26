@@ -12,7 +12,6 @@ async fn main() {
         .branch(Update::filter_callback_query().endpoint(callback_handler));
 
     Dispatcher::builder(bot, handler)
-        .enable_ctrlc_handler()
         .build()
         .dispatch()
         .await;
