@@ -1,6 +1,6 @@
 use teloxide::{
     prelude::*,
-    types::{InlineKeyboardButton, InlineKeyboardMarkup},
+    types::{InlineKeyboardButton, InlineKeyboardMarkup, MaybeInaccessibleMessage},
 };
 
 #[tokio::main]
@@ -35,8 +35,8 @@ async fn callback_handler(bot: Bot, q: CallbackQuery) -> ResponseResult<()> {
     if q.data.as_deref() == Some("btn_pressed") {
         bot.answer_callback_query(q.id.clone()).await?;
 
-        if let Some(msg) = q.message {
-            bot.send_message(msg.chat().id, "Кнопка на Rust сработала!")
+        if let Some(MaybeInaccessibleMessage::Regular(msg)) = q.message {
+            bot.send_message(msg.chat.id, "Кнопка на Rust сработала!")
                 .await?;
         }
     }
