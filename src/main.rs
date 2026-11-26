@@ -2,9 +2,21 @@ use teloxide::{
     prelude::*,
     types::{InlineKeyboardButton, InlineKeyboardMarkup, MaybeInaccessibleMessage},
 };
+use tokio::{io::AsyncWriteExt, net::TcpListener};
 
 #[tokio::main]
 async fn main() {
+    tokio::spawn(async {
+        let port = std::env::var("PORT").unwrap_or_else(|_| "10000".to_string());
+        if let Ok(listener) = TcpListener::bind(format!("0.0.0.0:{}", port)).await {
+            while let Ok((mut socket, _)) = listener.accept().await {
+                let _ = socket
+                    .write_all(b"HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\nOK")
+                    .await;
+            }
+        }
+    });
+
     let bot = Bot::from_env();
 
     let handler = dptree::entry()
