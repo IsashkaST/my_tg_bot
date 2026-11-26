@@ -24,7 +24,7 @@ async fn message_handler(bot: Bot, msg: Message) -> ResponseResult<()> {
         InlineKeyboardButton::url("Открыть сайт", "https://telegram.org".parse().unwrap()),
     ]]);
 
-    bot.send_message(msg.chat.id, "Привет с Rust в Termux! Выбери действие:")
+    bot.send_message(msg.chat.id, "Привет с Rust! Выбери действие:")
         .reply_markup(keyboard)
         .await?;
 
@@ -36,8 +36,8 @@ async fn callback_handler(bot: Bot, q: CallbackQuery) -> ResponseResult<()> {
         if data == "btn_pressed" {
             bot.answer_callback_query(q.id).await?;
 
-            if let Some(msg) = q.message {
-                bot.send_message(msg.chat().id, "Кнопка на Rust сработала!")
+            if let Some(msg) = q.regular_message() {
+                bot.send_message(msg.chat.id, "Кнопка на Rust сработала!")
                     .await?;
             }
         }
