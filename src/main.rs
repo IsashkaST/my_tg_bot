@@ -32,14 +32,12 @@ async fn message_handler(bot: Bot, msg: Message) -> ResponseResult<()> {
 }
 
 async fn callback_handler(bot: Bot, q: CallbackQuery) -> ResponseResult<()> {
-    if let Some(data) = q.data {
-        if data == "btn_pressed" {
-            bot.answer_callback_query(q.id).await?;
+    if q.data.as_deref() == Some("btn_pressed") {
+        bot.answer_callback_query(q.id.clone()).await?;
 
-            if let Some(msg) = q.regular_message() {
-                bot.send_message(msg.chat.id, "Кнопка на Rust сработала!")
-                    .await?;
-            }
+        if let Some(msg) = q.regular_message() {
+            bot.send_message(msg.chat.id, "Кнопка на Rust сработала!")
+                .await?;
         }
     }
     Ok(())
