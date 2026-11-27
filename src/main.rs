@@ -4,7 +4,7 @@ use teloxide::{
 };
 use tokio::{io::AsyncWriteExt, net::TcpListener};
 
-const INVITE_LINK: &str = "https://t.me/c/3914535331/1";
+const INVITE_LINK: &str = "https://t.me/+wX9AhZCV3YhhZWY0";
 
 #[tokio::main]
 async fn main() {
